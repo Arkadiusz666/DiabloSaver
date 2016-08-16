@@ -36,14 +36,12 @@ public class MainWindow extends JFrame {
         saveStashButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileOperator.makeBackup("_LOD_SharedStashSave.sss"); //todo
                 FileOperator.saveSharedStash();
             }
         });
         loadStashButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileOperator.makeBackup("_LOD_SharedStashSave.sss"); //todo
                 FileOperator.loadSharedStash();
             }
         });
@@ -62,6 +60,25 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileOperator.loadCharFile();
+            }
+        });
+        savePersonalStashButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileOperator.savePersonalStash();
+            }
+        });
+        savePersonalStashButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileOperator.loadPersonalStash();
+
+            }
+        });
+        charSelectionComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileOperator.setSelectedChar((String) charSelectionComboBox.getSelectedItem());
             }
         });
     }

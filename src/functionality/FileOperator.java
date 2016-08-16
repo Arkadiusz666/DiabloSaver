@@ -31,15 +31,10 @@ public class FileOperator {
         return characterList;
     }
 
-    public static void testPrintFiles(File[] files) {
-        for (File file : files) {
-//            System.out.println(file.getName());
-        }
-    }
-
     public static void saveSharedStash() {
         Path from = Paths.get(saveFolderPath +"/"+"_LOD_SharedStashSave.sss");
         Path to = Paths.get(saveFolderPath +"/"+"backup/_LOD_SharedStashSave.sss");
+        FileOperator.makeBackup("_LOD_SharedStashSave.sss"); //todo
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -49,11 +44,25 @@ public class FileOperator {
     public static void loadSharedStash() {
         Path from = Paths.get(saveFolderPath +"/backup/_LOD_SharedStashSave.sss");
         Path to = Paths.get(saveFolderPath +"/"+"_LOD_SharedStashSave.sss");
+        FileOperator.makeBackup("_LOD_SharedStashSave.sss");
+
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void savePersonalStash() {
+        Path from = Paths.get(saveFolderPath +"/" + selectedChar+".d2x");
+        Path to = Paths.get(saveFolderPath +"/backup/" + selectedChar+".d2x");
+        makeBackup(selectedChar+".d2x");
+    }
+
+    public static void loadPersonalStash() {
+        Path from = Paths.get(saveFolderPath +"/backup/" + selectedChar+".d2x");
+        Path to = Paths.get(saveFolderPath +"/" + selectedChar+".d2x");
+        makeBackup(selectedChar+".d2x");
     }
 
     public static void saveCharFile() {
@@ -66,17 +75,17 @@ public class FileOperator {
             e.printStackTrace();
         }
     }
-
     public static void loadCharFile() {
         Path from = Paths.get(saveFolderPath +"/backup/" + selectedChar+".d2s");
         Path to = Paths.get(saveFolderPath +"/" + selectedChar+".d2s");
-        makeBackup(selectedChar+".d2s");
+        makeBackup(selectedChar+".d2s"); //todo
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static void makeBackup(String fileName) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
         //get current date time with Date()
@@ -89,8 +98,6 @@ public class FileOperator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public static String getSaveFolderPath() {
