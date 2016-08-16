@@ -9,38 +9,46 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by AKrzos on 2016-08-16.
  */
 public class FileOperator {
-    private static String applicationPath= System.getProperty("user.dir");
+    private static String saveFolderPath = "C:\\Program Files (x86)\\Diablo II\\save";
+    private static String selectedChar;
 
-    public static File[] listFilesInDirectory(String folderRelativePath) {
-        File[] files = new File(applicationPath+folderRelativePath).listFiles();
-        return files;
+    public static List<String> listCharsInDirectory() {
+        File[] files = new File(saveFolderPath).listFiles();
+        List<String> characterList =new ArrayList<String>();
+
+        for (File file : files) {
+            if (file.getName().substring(file.getName().length() - 4).equals(".d2s")) {
+                characterList.add(file.getName().substring(0,file.getName().length()-4));
+            }
+        }
+        return characterList;
     }
 
     public static void testPrintFiles(File[] files) {
         for (File file : files) {
-            System.out.println(file.getName());
+//            System.out.println(file.getName());
         }
     }
 
-    public static void saveStash(String folderPath) {
-        Path from = Paths.get(applicationPath+folderPath+"/"+"_LOD_SharedStashSave.sss");
-        Path to = Paths.get(applicationPath+folderPath+"/"+"backup/_LOD_SharedStashSave.sss");
+    public static void saveSharedStash() {
+        Path from = Paths.get(saveFolderPath +"/"+"_LOD_SharedStashSave.sss");
+        Path to = Paths.get(saveFolderPath +"/"+"backup/_LOD_SharedStashSave.sss");
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static void loadStash(String folderPath) {
-        Path from = Paths.get(applicationPath+folderPath+"/"+"backup/_LOD_SharedStashSave.sss");
-        Path to = Paths.get(applicationPath+folderPath+"/"+"_LOD_SharedStashSave.sss");
+    public static void loadSharedStash() {
+        Path from = Paths.get(saveFolderPath +"/backup/_LOD_SharedStashSave.sss");
+        Path to = Paths.get(saveFolderPath +"/"+"_LOD_SharedStashSave.sss");
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -48,13 +56,57 @@ public class FileOperator {
         }
     }
 
-    public static void makeBackup() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    public static void saveCharFile() {
+        Path from = Paths.get(saveFolderPath +"/" + selectedChar+".d2s");
+        Path to = Paths.get(saveFolderPath +"/backup/" + selectedChar+".d2s");
+        makeBackup(selectedChar+".d2s");
+        try {
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadCharFile() {
+        Path from = Paths.get(saveFolderPath +"/backup/" + selectedChar+".d2s");
+        Path to = Paths.get(saveFolderPath +"/" + selectedChar+".d2s");
+        makeBackup(selectedChar+".d2s");
+        try {
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void makeBackup(String fileName) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
         //get current date time with Date()
         Date date = new Date();
-        String backupName = dateFormat.format(date)+"";//todo filename
+        String backupName = dateFormat.format(date)+fileName;
+        Path from = Paths.get(saveFolderPath +"/"+fileName);
+        Path to = Paths.get(saveFolderPath +"/backup/"+backupName);
+        try {
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+    }
 
+    public static String getSaveFolderPath() {
+        return saveFolderPath;
+    }
+
+    public static String getSelectedChar() {
+        return selectedChar;
+    }
+
+    public static void setSaveFolderPath(String saveFolderPath) {
+
+        FileOperator.saveFolderPath = saveFolderPath;
+    }
+
+    public static void setSelectedChar(String selectedChar) {
+        FileOperator.selectedChar = selectedChar;
     }
 }
