@@ -3,7 +3,6 @@ package windows;
 import functionality.FileOperator;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +15,7 @@ public class MainWindow extends JFrame {
     private JPanel rootPanel;
     private JButton saveCharButton;
     private JButton savePersonalStashButton;
-    private JButton savePersonalStashButton1;
+    private JButton loadPersonalStashButton;
     private JButton loadCharButton;
     private JComboBox charSelectionComboBox;
     
@@ -68,7 +67,7 @@ public class MainWindow extends JFrame {
                 FileOperator.savePersonalStash();
             }
         });
-        savePersonalStashButton1.addActionListener(new ActionListener() {
+        loadPersonalStashButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileOperator.loadPersonalStash();
