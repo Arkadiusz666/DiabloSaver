@@ -26,6 +26,7 @@ public class FileOperator {
         for (File file : files) {
             if (file.getName().substring(file.getName().length() - 4).equals(".d2s")) {
                 characterList.add(file.getName().substring(0,file.getName().length()-4));
+
             }
         }
         return characterList;
